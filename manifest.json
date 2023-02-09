@@ -1,0 +1,17 @@
+{
+  "name": "Where's Waldo?",
+  "version": "1.0.0",
+  "content_scripts":[
+    {
+      "matches": ["*://*/*"],
+      "js": ["script.js"]
+    }
+  ],
+  "description": "Find Waldo in the webpage!",
+  "manifest_version": 3,
+  "author": "Sam and Erika",
+  "action":{
+      "default_popup": "index.html",
+      "default_title": "Where's Waldo?"
+  }
+}

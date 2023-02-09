@@ -1,0 +1,22 @@
+@keyframes test {
+  from {top: 0px;}
+  to {top: 400px;}
+}
+
+#test-div {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  position: absolute;
+  animation: test 10s linear infinite;
+
+}
+
+#coin {
+  position: absolute;
+  top: 300px;
+  left: 300px;
+  max-width: 20px;
+  max-height: 20px;
+  border: 5px solid red;
+}

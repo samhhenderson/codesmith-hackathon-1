@@ -1,5 +1,5 @@
 {
-  "name": "Where's Waldo?",
+  "name": "Where's the coin?",
   "version": "1.0.0",
   "content_scripts":[
     {
@@ -7,11 +7,16 @@
       "js": ["script.js"]
     }
   ],
-  "description": "Find Waldo in the webpage!",
+  "description": "Find the coin on the webpage!",
   "manifest_version": 3,
   "author": "Sam and Erika",
+  "web_accessible_resources": [{
+    "matches": ["<all_urls>"],
+    "resources": ["coin.gif"]
+  }],
   "action":{
       "default_popup": "index.html",
-      "default_title": "Where's Waldo?"
+      "default_title": "Where's the coin?"
   }
+
 }

@@ -1,30 +1,19 @@
-//1. figure out how to make an extension
-  //create a manifest.json file in root folder
-
-//2. figure how to randomly select an element
-  //maybe traverse the DOM tree
-
-  //
-
-// alert("Hello!");
-
+//adds a coin gif to the body of the page at a random position 
 class Coin {
-  constructor() {
+  constructor(body) {
     //create an img HTML element for the coin GIF and set it to the random position
+    //requires chrome runtime to access the local directory
     this.coin = document.createElement('img')
-    this.coin.src = 'https://i.pinimg.com/originals/b0/b7/64/b0b76439e5cd5ef9bab27e83c4fdb2f2.gif';
+    this.coin.src = chrome.runtime.getURL('coin.gif');
     this.coin.setAttribute('id', 'coin')
 
-    this.body = document.querySelector('body');
+    this.body = body;
     this.moveCoin();
-
-    // this.moveCoin.bind(this)
 
     this.body.appendChild(this.coin);
   }
   
   moveCoin() {
-    console.log('moved');
     //get the size of the board
     let width = window.getComputedStyle(this.body).width;
     width = Number(width.replace('px', ''))
@@ -38,13 +27,37 @@ class Coin {
     const maxTop = height - 50;
     const randomLeft = Math.floor(Math.random() * (maxLeft - minLeft) + minLeft);
     const randomTop = Math.floor(Math.random() * (maxTop - minTop) + minTop);
-
-    this.coin.style.cssText = `z-index: 1000; position: absolute; top: ${randomTop}px; left: ${randomLeft}px; width: 5%`;
+    
+    this.coin.style.cssText = `z-index: 1000; position: absolute; top: ${randomTop}px; left: ${randomLeft}px; width: 2.5%`;
   }
-
 }
 
-const coin = new Coin();
+//creates score object which increments score after finding each coin
+class Score {
+  constructor(body) {
+    this.body = body;
+    this.score = document.createElement('div');
+    this.text = document.createElement('p');
+    this.count = -1;
+    this.incrementScore();
+    
+    this.score.style.cssText = 'z-index: 999; display: flex; position: fixed; justify-content: center; align-items:center; top: 100px; left: 100px; padding: 10px 25px; margin: 0; border-radius: 5px; font-family: monospace; font-size: 12pt; color: black; background-color: lightgrey; opacity: 50%;';
+    this.text.style.cssText = 'margin: 0; padding:0;'
+    
+    this.score.appendChild(this.text);
+    this.body.appendChild(this.score);
+  }
 
+  incrementScore() {
+    this.count++;
+    this.text.innerHTML = 'Score: ' + this.count;
+  }
+}
+
+const body = document.querySelector('body');
+const coin = new Coin(body);
+const score = new Score(body);
+
+//add event listeners for clicking on coin
 coin.coin.addEventListener('click', coin.moveCoin.bind(coin))
-// coin.moveCoin())
+coin.coin.addEventListener('click', score.incrementScore.bind(score))
